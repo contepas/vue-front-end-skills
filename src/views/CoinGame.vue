@@ -1,6 +1,6 @@
 <template>
-    <div class="home">
-        <p>I'm the home page</p>
+    <div>
+        <p>I'm the coin game</p>
     </div>
 </template>
 
