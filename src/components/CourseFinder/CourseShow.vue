@@ -1,5 +1,5 @@
 <template>
-    <div v-show="matchCourses.length > 0" id="courses">
+    <div v-show="totMatches > 0" id="courses">
         <ul>
             <li v-for="(course, index) in matchCourses" :key="index">
                 {{ course.title }}
@@ -9,9 +9,14 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex"
+
 export default {
-    props: {
-        matchCourses: Array
+    computed: {
+        ...mapState({
+            matchCourses: state => state.courseFinder.matchCourses
+        }),
+        ...mapGetters("courseFinder", ["totMatches"])
     }
 }
 </script>

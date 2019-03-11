@@ -1,14 +1,10 @@
 <template>
     <div id="search">
         <h3 v-on:click="showSearch = !showSearch">{{ title }}</h3>
+
         <div id="search" v-show="showSearch">
-            <CourseSearch
-                @matchCourses="updateMatches"
-                :courses="courses"
-                :keywords="keywords"
-                :function="updateMatches"
-            />
-            <CourseShow :matchCourses="matchCourses" />
+            <CourseSearch/>
+            <CourseShow/>
         </div>
     </div>
 </template>
@@ -16,46 +12,36 @@
 <script>
 import CourseSearch from "@/components/CourseFinder/CourseSearch.vue"
 import CourseShow from "@/components/CourseFinder/CourseShow.vue"
-import CourseService from "@/services/CourseService.js"
+import { mapActions, mapState } from "vuex"
 
 export default {
+    created() {
+        this.fetchAndShow()
+    },
+
     data() {
         return {
-            title: "Click me to show or hide the search field",
-            showSearch: false,
-            matchCourses: [],
-            courses: [],
-            keywords: []
+            title: "Loading...",
+            showSearch: false
         }
     },
 
-    async created() {
-        //axios call using promises
-        CourseService.getCourses()
-            .then(response => {
-                this.courses = response.data
-            })
-            .catch(error => {
-                console.log(`There was an error: ${error.response}`)
-            })
-        //axios call with async await
-        try {
-            const response = await CourseService.getKeywords()
-            this.keywords = response.data
-        } catch (error) {
-            console.log(`There was an error: ${error.response}`)
-        }
+    computed: {
+        ...mapState(["courseFinder"])
+    },
+
+    methods: {
+        async fetchAndShow() {
+            await this.fetchCourses()
+            this.showSearch = true
+            this.title = "Search trought my courses"
+        },
+        ...mapActions("courseFinder", ["fetchCourses"])
     },
 
     components: {
         CourseSearch,
         CourseShow
-    },
-
-    methods: {
-        updateMatches(matchCourses) {
-            this.matchCourses = matchCourses
-        }
     }
 }
 </script>
