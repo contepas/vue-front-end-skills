@@ -4,14 +4,15 @@ import Home from "./views/Home.vue"
 import CourseFinder from "./views/CourseFinder.vue"
 import CoinGame from "./views/CoinGame.vue"
 import NotFound from "./views/NotFound.vue"
+import NProgress from "nprogress"
+import store from "@/store/store"
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
     mode: "history",
     base: process.env.BASE_URL,
-    routes: [
-        {
+    routes: [{
             path: "/",
             name: "home",
             component: Home
@@ -19,7 +20,12 @@ export default new Router({
         {
             path: "/courses",
             name: "course-finder",
-            component: CourseFinder
+            component: CourseFinder,
+            beforeEnter(routeTo, routeFrom, next) {
+                store.dispatch("courseFinder/fetchCourses").then(() => {
+                    next()
+                })
+            }
         },
         {
             path: "/coins",
@@ -41,3 +47,14 @@ export default new Router({
         }
     ]
 })
+
+router.beforeEach((routeTo, routeFrom, next) => {
+    NProgress.start()
+    next()
+})
+
+router.afterEach(() => {
+    NProgress.done()
+})
+
+export default router

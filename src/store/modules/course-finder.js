@@ -27,6 +27,7 @@ export const actions = {
             commit("ADDALLCOURSES", courses.data)
             const keywords = await CourseService.getKeywords()
             commit("ADDALLKEYWORDS", keywords.data)
+            return true
         } catch (error) {
             const notification = {
                 type: "error",

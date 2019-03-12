@@ -1,10 +1,10 @@
 <template>
     <div id="search">
-        <h3 v-on:click="showSearch = !showSearch">{{ title }}</h3>
+        <h3>Take a look at my courses</h3>
 
-        <div id="search" v-show="showSearch">
-            <CourseSearch/>
-            <CourseShow/>
+        <div id="search">
+            <CourseSearch />
+            <CourseShow />
         </div>
     </div>
 </template>
@@ -12,32 +12,32 @@
 <script>
 import CourseSearch from "@/components/CourseFinder/CourseSearch.vue"
 import CourseShow from "@/components/CourseFinder/CourseShow.vue"
-import { mapActions, mapState } from "vuex"
+// import { mapActions, mapState } from "vuex"
 
 export default {
-    created() {
-        this.fetchAndShow()
-    },
+    // created() {
+    //     this.fetchAndShow()
+    // },
 
-    data() {
-        return {
-            title: "Loading...",
-            showSearch: false
-        }
-    },
+    // data() {
+    //     return {
+    //         title: "Loading...",
+    //         showSearch: true
+    //     }
+    // },
 
-    computed: {
-        ...mapState(["courseFinder"])
-    },
+    // computed: {
+    //     ...mapState(["courseFinder"])
+    // },
 
-    methods: {
-        async fetchAndShow() {
-            await this.fetchCourses()
-            this.showSearch = true
-            this.title = "Search trought my courses"
-        },
-        ...mapActions("courseFinder", ["fetchCourses"])
-    },
+    // methods: {
+    //     async fetchAndShow() {
+    //         await this.fetchCourses()
+    //         this.showSearch = true
+    //         this.title = "Search trought my courses"
+    //     },
+    //     ...mapActions("courseFinder", ["fetchCourses"])
+    // },
 
     components: {
         CourseSearch,
